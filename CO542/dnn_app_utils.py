@@ -1,21 +1,26 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import h5py
+from bigfloat import *
+from scipy.special import expit, logit
 
 
 def sigmoid(Z):
     """
     Implements the sigmoid activation in numpy
     
-    Arguments:
+    Arguments:    Arguments:
+
     Z -- numpy array of any shape
     
     Returns:
     A -- output of sigmoid(z), same shape as Z
     cache -- returns Z as well, useful during backpropagation
     """
-    
-    A = 1/(1+np.exp(-Z))
+    #Z = np.array(Z, dtype=float64)
+    # Z = BigFloat(Z) 
+    #A = 1/(1+np.exp(-Z))
+    A = expit(Z)
     cache = Z
     
     return A, cache
@@ -76,7 +81,7 @@ def sigmoid_backward(dA, cache):
     
     Z = cache
     
-    s = 1/(1+np.exp(-Z))
+    s = expit(Z)
     dZ = dA * s * (1-s)
     
     assert (dZ.shape == Z.shape)
@@ -320,8 +325,8 @@ def linear_activation_backward(dA, cache, activation):
     
     return dA_prev, dW, db
 
-def L_model_backward(AL, Y, caches):
-    """
+"""def L_model_backward(AL, Y, caches):
+    #
     Implement the backward propagation for the [LINEAR->RELU] * (L-1) -> LINEAR -> SIGMOID group
     
     Arguments:
@@ -336,7 +341,7 @@ def L_model_backward(AL, Y, caches):
              grads["dA" + str(l)] = ... 
              grads["dW" + str(l)] = ...
              grads["db" + str(l)] = ... 
-    """
+   # 
     grads = {}
     L = len(caches) # the number of layers
     m = AL.shape[1]
@@ -358,7 +363,7 @@ def L_model_backward(AL, Y, caches):
         grads["db" + str(l + 1)] = db_temp
 
     return grads
-
+"""
 def update_parameters(parameters, grads, learning_rate):
     """
     Update parameters using gradient descent
